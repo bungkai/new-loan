@@ -13,12 +13,34 @@ from streamlit_option_menu import option_menu
 #import model
 loan_model = pickle.load(open("loan_model.sav",'rb'))
 heart_model = pickle.load(open("heartmodel.sav",'rb'))
-
+RidingMower_Model = pickle.load(open("RidingMower_Model",'rb'))
 with st.sidebar:
     selcted = option_menu('Loan and heart prediction',
-                          ['Loan','heart'],
+                          ['Loan','heart','ridingmower'],
                           default_index=0)
+if(selcted == 'ridingmower'):
+    st.title("ridingmower Prediction")
+    #input data
+    income = st.text_input('income')
+    lotsize = st.text_input('lotsize')
+   
     
+    #predict
+    ridingmower_predict = ''
+    
+    if st.button('Loan accept/not test'):
+        ridingmower_predict = RidingMower_Model.predict([[
+            float(income),
+            float(lotsize)
+            
+        ]])
+        if(ridingmower_predict[0]== 0):
+            ridingmower_predict = 'nonower'
+        else:
+            ridingmower_predict = 'owner'
+    st.success(ridingmower_predict)
+    
+     
 if(selcted == 'Loan'):
     st.title("Loan Prediction")
     #input data
